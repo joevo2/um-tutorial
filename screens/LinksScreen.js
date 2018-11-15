@@ -60,7 +60,7 @@ import {
                         });
                         this.setState({date: new Date(year, month, day)})
                      }}>
-                     <Text>{this.state.date.toString()}</Text>
+                     <Text>{this.state.date.toLocaleDateString()}</Text>
                    </TouchableOpacity>
                }
              </View>
