@@ -1,5 +1,14 @@
 import React from 'react';
- import { ScrollView, StyleSheet, Text, Platform, View, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  Platform,
+  View,
+  TouchableOpacity,
+  DatePickerIOS,
+  DatePickerAndroid
+} from "react-native";
  import { TextInput } from 'react-native-gesture-handler';
 
  export default class LinksScreen extends React.Component {
@@ -7,7 +16,7 @@ import React from 'react';
      title: 'Add Item',
    };
 
-   state = { amount: '', desc: '' }
+   state = { amount: '', desc: '', date: new Date() }
 
    render() {
      return (
@@ -34,6 +43,26 @@ import React from 'react';
                  keyboardType='numeric'
                  placeholder="Description"
                />
+             </View>
+           </View>
+           <View style={styles.row}>
+             <View style={{ flex: 1 }}>
+               {
+                 Platform.OS === 'ios' ?
+                   <DatePickerIOS
+                     date={this.state.date}
+                     onDateChange={(date) => this.setState({ date })}
+                   /> :
+                   <TouchableOpacity
+                     onPress={async () => {
+                        const {year, month, day} = await DatePickerAndroid.open({
+                          date: new Date()
+                        });
+                        this.setState({date: new Date(year, month, day)})
+                     }}>
+                     <Text>{this.state.date.toString()}</Text>
+                   </TouchableOpacity>
+               }
              </View>
            </View>
          </ScrollView>
