@@ -7,38 +7,40 @@ import {
   Platform,
   FlatList
 } from 'react-native';
+import { Firebase } from "../api/config.js";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Spending',
   };
+
+  constructor(props) {
+    super(props)
+    this.state = { items: [{ key: '1'}] }
+    const items = Firebase.database().ref('users/' + 'joel');
+    items.on('value', (snapshot) => {
+      const data = snapshot.val()
+      const convertedItems = Object.values(data.items)
+      // to convert key into string for React native flat list to render items key
+      convertedItems.map((item, index) => item.key = index.toString())
+      this.setState({ items: convertedItems })
+    });
+  }
   
   render() {
-    const testData = [
-      {
-        key: "0",
-        amount: 1,
-        desc: 'Food',
-        date: new Date()
-      },
-      {
-        key: "1",
-        amount: 2,
-        desc: 'Food',
-        date: new Date()
-      }
-    ]
-    const total = testData.map(item => item.amount)
-    const totalAmount = total.reduce((accumulator, currentValue) => accumulator + currentValue)
+    const { items } = this.state
+    const total = items.map(item => item.amount)
+    const totalAmount = total ? total.reduce((accumulator, currentValue) => accumulator + currentValue) : 0
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <FlatList
-            data={testData}
+            data={items}
+            extraData={this.state}
             renderItem={({ item }) =>
               <View style={styles.card}>
                 <View style={styles.cardDate}>
-                  <Text>{item.date.toLocaleDateString()}</Text>
+                  <Text>{JSON.stringify(item.date)}</Text>
                 </View>
                 <View style={styles.cardRow}>
                   <Text>{item.desc}</Text>

@@ -16,25 +16,23 @@ import {
    static navigationOptions = {
      title: 'Add Item',
    };
-
+   
    state = { amount: '', desc: '', date: new Date() }
 
    handleAddItem = () => {
-      Firebase.database().ref('users/' + 'joel').set({
-        items: [
-          {
-            amount: 1,
-            desc: 'Food',
-            date: this.state.date.toLocaleDateString()
-          }
-        ]
-      });
-    }
+     Firebase.database().ref('users/' + 'joel' + '/items').push().set(
+       {
+         amount: Number(this.state.amount),
+         desc: this.state.desc,
+         date: this.state.date.toLocaleDateString()
+       }
+     )
+   }
 
    render() {
      return (
        <View style={styles.container}>
-         <ScrollView>
+         <ScrollView keyboardDismissMode={'on-drag'}>
            <View style={styles.row}>
              <Text style={{ fontSize: 18 }}>Price</Text>
              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
