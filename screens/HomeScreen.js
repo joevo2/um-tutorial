@@ -13,10 +13,23 @@ export default class HomeScreen extends React.Component {
   };
   
   render() {
+    const date = new Date()
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <Text>Test World</Text>
+          <View style={styles.card}>
+            <View style={styles.cardDate}>
+              <Text>{date.toLocaleDateString()}</Text>
+            </View>
+            <View style={styles.cardRow}>
+              <Text>Food</Text>
+              <Text>RM 8</Text>
+            </View>
+            <View style={styles.cardRow}>
+              <Text>Grocery</Text>
+              <Text>RM 2</Text>
+            </View>
+          </View>
         </ScrollView>
         <View style={styles.tabBarInfoContainer}>
            <Text style={{fontWeight: 'bold'}}>Total</Text>
@@ -33,8 +46,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   contentContainer: {
-    paddingTop: 30,
+	  // paddingTop: 30,
   },
+  card: {
+    borderWidth: 0.5,
+    borderColor: '#d6d7da'
+  },
+  cardDate: {
+    padding: 10,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+    backgroundColor: '#f5f5f5'
+  },
+  cardRow: {
+    padding: 10,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+  },		 
   tabBarInfoContainer: {
     position: 'absolute',
     bottom: 0,
