@@ -21,8 +21,13 @@ import {
 
    handleAddItem = () => {
       Firebase.database().ref('users/' + 'joel').set({
-        item: this.state,
-        date: this.state.date.toLocaleDateString()
+        items: [
+          {
+            amount: 1,
+            desc: 'Food',
+            date: this.state.date.toLocaleDateString()
+          }
+        ]
       });
     }
 
